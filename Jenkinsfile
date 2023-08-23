@@ -17,7 +17,7 @@ pipeline {
                 script {
                     def mvnHome = tool name: 'Maven', type: 'hudson.tasks.Maven$MavenInstallation'
                     
-                    withSonarQubeEnv('SonarQube') {
+                    withSonarQubeEnv('sq1') {
                         sh "${mvnHome}/bin/mvn clean verify sonar:sonar " +
                            "-Dsonar.projectKey=cicdjenkins " +
                            "-Dsonar.sources=src " +
