@@ -73,7 +73,7 @@ stage('SonarQube Analysis') {
         script {
             def scannerHome = tool name: 'SonarQubeScanner', type: 'hudson.plugins.sonar.SonarRunnerInstallation'
             withSonarQubeEnv('SonarQube') {
-                bat "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey='cicdjenkins' -Dsonar.host.url='http://localhost:9000/' -Dsonar.login=${env.SONAR_TOKEN}"
+                bat "${scannerHome}/bin/sonar-scanner.bat -Dsonar.projectKey='cicdjenkins' -Dsonar.host.url='http://localhost:9000/' -Dsonar.login=${env.SONAR_TOKEN}"
             }
         }
     }
