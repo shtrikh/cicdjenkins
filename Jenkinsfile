@@ -13,9 +13,9 @@ node {
                  //   sh 'sonar-scanner'
                 //}
                 script {
-                //def scannerHome = tool 'sonarqube';
+                def scannerHome = tool 'sonarqube';
                 withSonarQubeEnv(installationName: 'sq1') {
-                    sh "mvn sonar:sonar \
+                    bat "mvn sonar:sonar \
                    -Dsonar.projectKey=cicdjenkins \
                    -Dsonar.host.url=http://localhost:9000 \
                    }
