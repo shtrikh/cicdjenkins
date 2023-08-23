@@ -1,24 +1,36 @@
-node {
-  stage('SCM') {
-    checkout scm
-  }
-  stage('build && SonarQube analysis') {
+pipeline {
+    agent any
+
+    stages {
+        stage('Checkout') {
             steps {
-                //tools {
-                //    sonarQube 'SonarQube Scanner 7.9.1.27448'
-               // }
-                //withSonarQubeEnv(installationName: 'sq1') {
-                    // Optionally use a Maven environment you've configured already
-                    //    sh './mvnw clean org.sonarsource.scanner.maven:sonar-maven-plugin:3.9.0.2155:sonar'
-                 //   sh 'sonar-scanner'
-                //}
-                script {
-                def scannerHome = tool 'sonarqube';
-                withSonarQubeEnv(installationName: 'sq1') {
-                    bat "mvn sonar:sonar \
-                   -Dsonar.projectKey=cicdjenkins \
-                   -Dsonar.host.url=http://localhost:9000 \
-                   }
-               }
+                // Checkout your GitHub repository
+                checkout scm
             }
+        }
+
+        stage('Build') {
+            steps {
+                // Add your build steps here
+                // For example, if you're using Maven:
+                sh 'mvn clean package'
+            }
+        }
+
+        stage('SonarQube Analysis') {
+            steps {
+                withSonarQubeEnv('SonarQube') {
+                    // You need to configure the "Your_SonarQube_Environment" in Jenkins
+                    sh 'sonar-scanner'
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            // Archive the SonarQube scan results
+            archiveArtifacts(artifacts: 'target/sonar/report-task.txt', allowEmptyArchive: true)
+        }
+    }
 }
