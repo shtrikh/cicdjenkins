@@ -14,7 +14,7 @@ pipeline {
 
         stage('Build') {
             steps {
-                sh 'mvn clean package'
+                bat 'mvn clean package'
                 // Your build steps here
             }
         }
@@ -24,7 +24,7 @@ pipeline {
                 script {
                     def scannerHome = tool name: 'SonarQubeScanner', type: 'hudson.plugins.sonar.SonarRunnerInstallation'
                     withSonarQubeEnv('SonarQubeServer') {
-                        sh "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=cicdjenkins -Dsonar.host.url=http://localhost:9000/ -Dsonar.login=${env.SONAR_TOKEN}"
+                        bat "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=cicdjenkins -Dsonar.host.url=http://localhost:9000/ -Dsonar.login=${env.SONAR_TOKEN}"
                     }
                 }
             }
