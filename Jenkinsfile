@@ -1,31 +1,13 @@
-pipeline {
-    agent any
-
-    stages {
-        stage('Checkout') {
-            steps {
-                // Checkout your GitHub repository
-                checkout scm
-            }
-        }
-
-        stage('Build') {
-            steps {
-                // Add your build steps here
-                // For example, if you're using Maven:
-                sh 'mvn clean package'
-            }
-        }
-
-        stage('SonarQube Analysis') {
-            steps {
-                withSonarQubeEnv('SonarQube') {
-                    // You need to configure the "Your_SonarQube_Environment" in Jenkins
-                    sh 'sonar-scanner'
-                }
-            }
-        }
+node {
+  stage('SCM') {
+    checkout scm
+  }
+  stage('SonarQube Analysis') {
+    def mvn = tool 'Default Maven';
+    withSonarQubeEnv() {
+      bat "${mvn}/bin/mvn clean verify sonar:sonar -Dsonar.projectKey=cicdjenkins -Dsonar.projectName='cicdjenkins' -Dsonar.host.url=http://localhost:9000/ -Dsonar.login=${env.SONAR_TOKEN}"
     }
+  }
 // pipeline {
 //     agent any
     
