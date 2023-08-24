@@ -3,12 +3,18 @@ pipeline {
     
     stages {
         stage('SCM') {
+            tools {
+                   jdk "jdk11"
+                }
             steps {
                 checkout scm
             }
         }
         
         stage('SonarQube Analysis') {
+            tools {
+                   jdk "jdk11"
+                }
             environment {
                 // Define your SonarQube token
                 SONAR_TOKEN = credentials('sonarqube-token')
@@ -18,7 +24,7 @@ pipeline {
                     def mvnHome = tool name: 'Maven', type: 'hudson.tasks.Maven$MavenInstallation'
                     
                     withSonarQubeEnv('sonarserver') {
-                        bat "${mvnHome}/bin/mvn clean verify sonar:sonar " +
+                          bat "${mvnHome}/bin/mvn clean verify sonar:sonar " +
                            "-Dsonar.projectKey=cicdjenkins " +
                            "-Dsonar.sources=src " +
                            "-Dsonar.host.url=http://localhost:9000/ " +
