@@ -1,38 +1,32 @@
-package com.example.cicd;
+package service;
 
+import static org.junit.jupiter.api.Assertions.*;
 
 import model.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import service.UserService;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.when;
+import java.util.Map;
 
 public class UserServiceTest {
 
-    @Mock
     private UserService userService;
-
-    @InjectMocks
-    private UserService userServiceUnderTest;
 
     @BeforeEach
     public void setUp() {
-        MockitoAnnotations.openMocks(this);
+        userService = new UserService();
     }
 
     @Test
-    public void testCreateUser() {
-        when(userService.createUser("John Doe", "john@example.com")).thenReturn(new User(1, "John Doe", "john@example.com"));
+    public void testGetUserById() {
+        User user = userService.createUser("Jane Smith", "jane@example.com");
+        long userId = user.getId();
 
-        User user = userServiceUnderTest.createUser("John Doe", "john@example.com");
+        User retrievedUser = userService.getUserById(userId);
 
-        assertEquals("John Doe", user.getName());
-        assertEquals("john@example.com", user.getEmail());
+        assertNotNull(retrievedUser);
+        assertEquals(userId, retrievedUser.getId());
+        assertEquals("Jane Smith", retrievedUser.getName());
+        assertEquals("jane@example.com", retrievedUser.getEmail());
     }
-
 }
