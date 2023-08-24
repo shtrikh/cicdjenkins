@@ -13,7 +13,7 @@ public class UserService {
     private long nextUserId = 1;
 
     public User createUser(String name, String email) {
-        User user = new User(nextUserId, email, email);
+        User user = new User(nextUserId, name, email);
         users.put(nextUserId, user);
         nextUserId++;
         return user;

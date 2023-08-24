@@ -35,5 +35,4 @@ public class UserServiceTest {
         assertEquals("john@example.com", user.getEmail());
     }
 
-    // Add more tests for other methods
 }
