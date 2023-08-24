@@ -3,12 +3,18 @@ pipeline {
     
     stages {
         stage('SCM') {
+            tools {
+                   jdk "jdk11"
+                }
             steps {
                 checkout scm
             }
         }
         
         stage('SonarQube Analysis') {
+            tools {
+                   jdk "jdk11"
+                }
             environment {
                 // Define your SonarQube token
                 SONAR_TOKEN = credentials('sonarqube-token')
