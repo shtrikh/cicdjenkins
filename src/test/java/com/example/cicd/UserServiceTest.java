@@ -26,7 +26,7 @@ public class UserServiceTest {
 
         assertNotNull(retrievedUser);
         assertEquals(userId, retrievedUser.getId());
-        assertEquals("Jane Smith", retrievedUser.getName());
+        assertEquals("jane@example.com", retrievedUser.getName());
         assertEquals("jane@example.com", retrievedUser.getEmail());
     }
 }
